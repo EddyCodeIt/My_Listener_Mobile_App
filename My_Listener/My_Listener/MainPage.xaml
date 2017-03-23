@@ -1,0 +1,87 @@
+﻿<Page
+    x:Class="My_Listener.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:My_Listener"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.TopAppBar>
+        <CommandBar ClosedDisplayMode="Minimal" 
+        Background="#7E5DC4" DefaultLabelPosition ="Collapsed">
+
+            <CommandBar.Content>
+                <StackPanel Orientation="Horizontal">
+                    <AppBarButton Name="settings" Icon="Setting" 
+                    Label="Settings" Click = "settings_Click"/>
+                    <AppBarSeparator/>
+                    <AppBarButton Name="admin" Icon="Admin" 
+                Label="Admin" Click="admin_Click"/>
+                </StackPanel>
+            </CommandBar.Content>
+
+            <CommandBar.PrimaryCommands>
+                <AppBarButton Name="search" Icon="Find" 
+                Label="Search" Click="search_Click"/>
+            </CommandBar.PrimaryCommands>
+        </CommandBar>
+    </Page.TopAppBar>
+
+    <Page.BottomAppBar>
+        <CommandBar>
+            <CommandBar.Content>
+                <StackPanel Orientation="Horizontal">
+                    
+                </StackPanel>
+            </CommandBar.Content>
+            <CommandBar.PrimaryCommands>
+                <AppBarButton Name="goToTasks" Icon="CalendarDay" 
+                Label="Your Tasks" Click = "goToTasks_Click" Margin="15,0,0,0"/>
+                <AppBarSeparator/>
+                <AppBarButton Name="goToDiary" Icon="Read" 
+                Label="Your Diary" Click="goToDiary_Click" Margin="0,0,15,0"/>
+                <AppBarSeparator/>
+            </CommandBar.PrimaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
+    
+    
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+
+        <StackPanel x:Name="MainPanel" Background="#353535" BorderBrush="#747474" BorderThickness="3">
+
+
+            <StackPanel x:Name="pivot_sp" VerticalAlignment="top" HorizontalAlignment="Stretch" Margin="0, 0, 0, 0">
+
+                <ListView x:Name ="toDoList" BorderBrush="Black" SelectionChanged="toDoList_SelectionChanged">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding TaskDesc}" 
+                                                   Margin="20,0,20, 8"
+                                                   FontSize="16"
+                                                   FontStyle="Oblique"
+                                                   FontWeight="Medium"
+                                                   Foreground="Crimson"/>
+                                <TextBlock Text="{Binding DateCreated}" 
+                                                   Margin="20,0,20, 8"
+                                                   FontSize="16"
+                                                   FontStyle="Oblique"
+                                                   FontWeight="Medium"
+                                                   Foreground="Crimson"/>
+
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+            </StackPanel>
+
+        </StackPanel>
+
+
+
+    </Grid>
+</Page>
