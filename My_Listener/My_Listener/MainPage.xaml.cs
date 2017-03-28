@@ -65,9 +65,20 @@ namespace My_Listener
         }
 
         private void delete_Click(object sender, RoutedEventArgs e){
-                // Call a function RemoveAt(index) inherited from Observable Collection Interface
-                // Index is obtained from front end ListView with x:Name = "toDoList"
-                listOfTasks.RemoveAt(toDoList.SelectedIndex);            
+            // Call a function RemoveAt(index) inherited from Observable Collection Interface
+            // Index is obtained from front end ListView with x:Name = "toDoList"
+            listOfTasks.RemoveAt(toDoList.SelectedIndex);            
+        }
+
+        private async void edit_Click(object sender, RoutedEventArgs e){
+            // Similar to add a new task, call anync Dialog Box and allow user edit 
+            // task. 
+            string editedTask = await InputTextDialogAsync("Editting Task");
+            // Get selected item index
+            if (editedTask.Length == 0) { /* Do nothing */ }
+            else {
+                listOfTasks.ElementAt(toDoList.SelectedIndex).TaskDesc = editedTask;
+            }
         }
 
         #endregion Command Bar

@@ -17,7 +17,7 @@
                     Label="Settings" Click = "settings_Click"/>
                 <AppBarSeparator/>
                 <AppBarButton Name="edit" Icon="Edit"
-                              Label="Edit"/>
+                              Label="Edit" Click="edit_Click"/>
                 <AppBarSeparator/>
                 <AppBarButton Name="delete" Icon="Delete"
                               Label="Delete" Click="delete_Click"
