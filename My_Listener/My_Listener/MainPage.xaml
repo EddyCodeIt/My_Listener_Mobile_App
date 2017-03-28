@@ -5,61 +5,53 @@
     xmlns:local="using:My_Listener"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}">
 
     <Page.TopAppBar>
-        <CommandBar ClosedDisplayMode="Minimal" 
-        Background="#7E5DC4" DefaultLabelPosition ="Collapsed">
-
-            <CommandBar.Content>
-                <StackPanel Orientation="Horizontal">
-                    <AppBarButton Name="settings" Icon="Setting" 
-                    Label="Settings" Click = "settings_Click"/>
-                    <AppBarSeparator/>
-                    <AppBarButton Name="admin" Icon="Admin" 
-                Label="Admin" Click="admin_Click"/>
-                </StackPanel>
-            </CommandBar.Content>
+        <CommandBar ClosedDisplayMode="Compact" 
+        Background="#D5CDCD">
 
             <CommandBar.PrimaryCommands>
-                <AppBarButton Name="search" Icon="Find" 
-                Label="Search" Click="search_Click"/>
+                <AppBarButton HorizontalAlignment="Left" Name="settings" Icon="Setting" 
+                    Label="Settings" Click = "settings_Click"/>
+                <AppBarSeparator/>
+                <AppBarButton Name="admin" Icon="Admin" 
+                    Label="Admin" Click="admin_Click" Margin="0,0,70,0"/>
+                <AppBarButton  Name="newTask" Icon="Add" 
+                Label="New Task" Click="addButton_Click"/>
             </CommandBar.PrimaryCommands>
+            
         </CommandBar>
     </Page.TopAppBar>
 
-    <Page.BottomAppBar>
-        <CommandBar>
-            <CommandBar.Content>
-                <StackPanel Orientation="Horizontal">
-                    
-                </StackPanel>
-            </CommandBar.Content>
-            <CommandBar.PrimaryCommands>
-                <AppBarButton Name="goToTasks" Icon="CalendarDay" 
-                Label="Your Tasks" Click = "goToTasks_Click" Margin="15,0,0,0"/>
-                <AppBarSeparator/>
-                <AppBarButton Name="goToDiary" Icon="Read" 
-                Label="Your Diary" Click="goToDiary_Click" Margin="0,0,15,0"/>
-                <AppBarSeparator/>
-            </CommandBar.PrimaryCommands>
-        </CommandBar>
-    </Page.BottomAppBar>
-    
-    
+
+
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
 
-        <StackPanel x:Name="MainPanel" Background="#353535" BorderBrush="#747474" BorderThickness="3">
+        <Grid x:Name="MainPanel" Background="#353535" BorderBrush="#747474" BorderThickness="3">
 
+            <Grid x:Name="toDoList_sp" VerticalAlignment="top" HorizontalAlignment="Stretch" Margin="0, 0, 0, 0">
 
-            <StackPanel x:Name="pivot_sp" VerticalAlignment="top" HorizontalAlignment="Stretch" Margin="0, 0, 0, 0">
-
-                <ListView x:Name ="toDoList" BorderBrush="Black" SelectionChanged="toDoList_SelectionChanged">
+                <ScrollViewer>
+                
+                <ListView x:Name ="toDoList" 
+                          ItemsSource="{Binding ListOfTasks}"
+                          
+                          SelectionChanged="toDoList_SelectionChanged"
+                          BorderBrush="White" BorderThickness="3"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                          ScrollViewer.VerticalScrollMode="Auto">
+                    
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel>
-                                <TextBlock Text="{Binding TaskDesc}" 
+
+                            <StackPanel BorderBrush="White" BorderThickness="2" CornerRadius="10"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center">
+                                <TextBlock Text="{Binding TaskDesc}"                                                    
                                                    Margin="20,0,20, 8"
                                                    FontSize="16"
                                                    FontStyle="Oblique"
@@ -71,17 +63,20 @@
                                                    FontStyle="Oblique"
                                                    FontWeight="Medium"
                                                    Foreground="Crimson"/>
-
+                                <Line
+                                  Margin="0,4"
+                                  Stroke="Silver"
+                                  Stretch="Fill"
+                                  X1="0" X2="1" 
+                                  />
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+                </ScrollViewer>
+            </Grid>
 
-            </StackPanel>
-
-        </StackPanel>
-
-
+        </Grid>
 
     </Grid>
 </Page>

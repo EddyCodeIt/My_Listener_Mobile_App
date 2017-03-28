@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Popups;
@@ -23,23 +25,18 @@ namespace My_Listener
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private List<TaskTodo> listOfTasks = new List<TaskTodo>();
+        private ObservableCollection<TaskTodo> listOfTasks { get; set; }
+        
+        public ObservableCollection<TaskTodo> ListOfTasks
+        {
+            get { return listOfTasks; }
+        }
+
 
         public MainPage()
         {
             this.InitializeComponent();
-
-            listOfTasks.Add(new TaskTodo { TaskDesc = "Study for Selenium MCQ", DateCreated = DateTime.Now });
-            listOfTasks.Add(new TaskTodo { TaskDesc = "To do List for C# Project", DateCreated = DateTime.Now });
-            listOfTasks.Add(new TaskTodo { TaskDesc = "Redesign Pivot for C# Project", DateCreated = DateTime.Now });
-            listOfTasks.Add(new TaskTodo { TaskDesc = "Study for SSRAD Assesment 2", DateCreated = DateTime.Now });
-            listOfTasks.Add(new TaskTodo { TaskDesc = "Create Neo4j DB structure for timetable", DateCreated = DateTime.Now });
-            listOfTasks.Add(new TaskTodo { TaskDesc = "Documment main project FX Client", DateCreated = DateTime.Now });
-
-
-
-           
-            toDoList.ItemsSource = listOfTasks;
+            listOfTasks = new TodoCollection();
         }
 
         // ListView Control
@@ -83,5 +80,28 @@ namespace My_Listener
 
         #endregion Command Bar
 
+        private async void addButton_Click(object sender, RoutedEventArgs e)
+        {
+            string task = await InputTextDialogAsync("Title");
+            listOfTasks.Add(new TaskTodo (task, DateTime.Now));
+
+        }
+
+        private async Task<string> InputTextDialogAsync(string title)
+        {
+            TextBox inputTextBox = new TextBox();
+            inputTextBox.AcceptsReturn = false;
+            inputTextBox.Height = 32;
+            ContentDialog dialog = new ContentDialog();
+            dialog.Content = inputTextBox;
+            dialog.Title = title;
+            dialog.IsSecondaryButtonEnabled = true;
+            dialog.PrimaryButtonText = "Ok";
+            dialog.SecondaryButtonText = "Cancel";
+            if (await dialog.ShowAsync() == ContentDialogResult.Primary)
+                return inputTextBox.Text;
+            else
+                return "";
+        }
     }
 }
