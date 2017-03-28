@@ -27,81 +27,74 @@ namespace My_Listener
     {
         private ObservableCollection<TaskTodo> listOfTasks { get; set; }
         
-        public ObservableCollection<TaskTodo> ListOfTasks
-        {
+        public ObservableCollection<TaskTodo> ListOfTasks{
             get { return listOfTasks; }
         }
 
 
-        public MainPage()
-        {
+        public MainPage(){
             this.InitializeComponent();
             listOfTasks = new TodoCollection();
         }
 
         // ListView Control
-        private void toDoList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        private void toDoList_SelectionChanged(object sender, SelectionChangedEventArgs e){
 
         }
 
 
-        #region Command Bars Navigation Methods
+        #region Command Bar Methods
 
-        #region Top Bar
-        private void settings_Click(object sender, RoutedEventArgs e)
-        {
+        private void settings_Click(object sender, RoutedEventArgs e){
 
         }
-
-        private void admin_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void search_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-        #endregion Top Bar
-
-        #region Bottom Bar
         
-        private void goToTasks_Click(object sender, RoutedEventArgs e)
-        {
+        // Add button activates Input Box for user to enter a new Task
+        private async void addButton_Click(object sender, RoutedEventArgs e){
+            // Store value returned by the function that calls Dialog Box
+            string task = await InputTextDialogAsync("Add New Task");
 
+            // check if returned task is not empty String
+            if(task.Length == 0){ /* do nothing */ }
+            else{
+                // Add obtained value to an Observable Collection of Tasks.
+                // UI automatically pick up new changes in the collection
+                // thanks to data binding and ObservableCollection<T> interface
+                listOfTasks.Add(new TaskTodo(task, DateTime.Now));
+            } 
         }
 
-        private void goToDiary_Click(object sender, RoutedEventArgs e)
-        {
-
+        private void delete_Click(object sender, RoutedEventArgs e){
+                // Call a function RemoveAt(index) inherited from Observable Collection Interface
+                // Index is obtained from front end ListView with x:Name = "toDoList"
+                listOfTasks.RemoveAt(toDoList.SelectedIndex);            
         }
-        #endregion Bottom Bar
 
         #endregion Command Bar
 
-        private async void addButton_Click(object sender, RoutedEventArgs e)
-        {
-            string task = await InputTextDialogAsync("Title");
-            listOfTasks.Add(new TaskTodo (task, DateTime.Now));
-
-        }
-
+        // Method that creates dialog with user and asks for input
+        // Method asynchronously calls a window by setting it's return type to Task<T>. 
+        // In this case, thread that deals with a task returns String representation 
+        // of an input from ContentDialog. 
         private async Task<string> InputTextDialogAsync(string title)
         {
-            TextBox inputTextBox = new TextBox();
-            inputTextBox.AcceptsReturn = false;
+            TextBox inputTextBox = new TextBox(); // user input
+            inputTextBox.AcceptsReturn = false; // 
             inputTextBox.Height = 32;
-            ContentDialog dialog = new ContentDialog();
-            dialog.Content = inputTextBox;
+            ContentDialog dialog = new ContentDialog(); // Representing Dialog Box with a user
+            dialog.Content = inputTextBox; // add input box to a dialog
             dialog.Title = title;
-            dialog.IsSecondaryButtonEnabled = true;
-            dialog.PrimaryButtonText = "Ok";
-            dialog.SecondaryButtonText = "Cancel";
+            dialog.IsSecondaryButtonEnabled = true; // enable cancel button
+            dialog.PrimaryButtonText = "Ok"; // submit
+            dialog.SecondaryButtonText = "Cancel"; // cancel operation
+            // beggin asynch operation of a dialog box and wait for primary button to be tapped by a user
             if (await dialog.ShowAsync() == ContentDialogResult.Primary)
                 return inputTextBox.Text;
             else
+                // if secondary button was tapped or dialog was closed, return empty String
                 return "";
         }
+
+
     }
 }

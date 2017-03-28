@@ -16,8 +16,13 @@
                 <AppBarButton HorizontalAlignment="Left" Name="settings" Icon="Setting" 
                     Label="Settings" Click = "settings_Click"/>
                 <AppBarSeparator/>
-                <AppBarButton Name="admin" Icon="Admin" 
-                    Label="Admin" Click="admin_Click" Margin="0,0,70,0"/>
+                <AppBarButton Name="edit" Icon="Edit"
+                              Label="Edit"/>
+                <AppBarSeparator/>
+                <AppBarButton Name="delete" Icon="Delete"
+                              Label="Delete" Click="delete_Click"
+                              Margin="0, 0, 0, 0"/>
+                <AppBarSeparator/>
                 <AppBarButton  Name="newTask" Icon="Add" 
                 Label="New Task" Click="addButton_Click"/>
             </CommandBar.PrimaryCommands>
@@ -25,21 +30,25 @@
         </CommandBar>
     </Page.TopAppBar>
 
+    <Page.BottomAppBar>
+        <CommandBar  Background="#D5CDCD" ClosedDisplayMode="Compact">
+            <CommandBar.PrimaryCommands>
+
+            </CommandBar.PrimaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
+
 
 
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-
         <Grid x:Name="MainPanel" Background="#353535" BorderBrush="#747474" BorderThickness="3">
 
             <Grid x:Name="toDoList_sp" VerticalAlignment="top" HorizontalAlignment="Stretch" Margin="0, 0, 0, 0">
-
                 <ScrollViewer>
-                
-                <ListView x:Name ="toDoList" 
+                    <ListView x:Name ="toDoList" 
                           ItemsSource="{Binding ListOfTasks}"
-                          
                           SelectionChanged="toDoList_SelectionChanged"
                           BorderBrush="White" BorderThickness="3"
                           ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -48,7 +57,7 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
 
-                            <StackPanel BorderBrush="White" BorderThickness="2" CornerRadius="10"
+                            <StackPanel BorderBrush="Snow" BorderThickness="2" CornerRadius="10"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Center">
                                 <TextBlock Text="{Binding TaskDesc}"                                                    
@@ -56,13 +65,13 @@
                                                    FontSize="16"
                                                    FontStyle="Oblique"
                                                    FontWeight="Medium"
-                                                   Foreground="Crimson"/>
+                                                   Foreground="Silver"/>
                                 <TextBlock Text="{Binding DateCreated}" 
                                                    Margin="20,0,20, 8"
                                                    FontSize="16"
                                                    FontStyle="Oblique"
                                                    FontWeight="Medium"
-                                                   Foreground="Crimson"/>
+                                                   Foreground="Snow"/>
                                 <Line
                                   Margin="0,4"
                                   Stroke="Silver"
