@@ -43,35 +43,37 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-        <Grid x:Name="MainPanel" Background="#353535" BorderBrush="#747474" BorderThickness="3">
+        
+        <Grid x:Name="MainPanel" Background="White" BorderBrush="#747474" BorderThickness="3">
 
-            <Grid x:Name="toDoList_sp" VerticalAlignment="top" HorizontalAlignment="Stretch" Margin="0, 0, 0, 0">
+            <Grid x:Name="toDoList_sp" VerticalAlignment="top" HorizontalAlignment="Stretch">
                 <ScrollViewer>
                     <ListView x:Name ="toDoList" 
-                          ItemsSource="{Binding ListOfTasks}"
+                          ItemsSource="{Binding Path=ListOfTasks}"
                           SelectionChanged="toDoList_SelectionChanged"
                           BorderBrush="White" BorderThickness="3"
                           ScrollViewer.VerticalScrollBarVisibility="Auto"
                           ScrollViewer.VerticalScrollMode="Auto">
-                    
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
 
-                            <StackPanel BorderBrush="Snow" BorderThickness="2" CornerRadius="10"
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+
+                                <StackPanel BorderBrush="Snow" BorderThickness="2" CornerRadius="10"
                                         HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Center">
-                                <TextBlock Text="{Binding TaskDesc}"                                                    
+                                        VerticalAlignment="Center"
+                                        Background="#D5CDCD">
+                                <TextBlock Text="{Binding Path=TaskDesc}"                                                    
                                                    Margin="20,0,20, 8"
                                                    FontSize="16"
                                                    FontStyle="Oblique"
                                                    FontWeight="Medium"
-                                                   Foreground="Silver"/>
-                                <TextBlock Text="{Binding DateCreated}" 
+                                                   Foreground="Black"/>
+                                <TextBlock Text="{Binding Path=DateCreated}" 
                                                    Margin="20,0,20, 8"
                                                    FontSize="16"
                                                    FontStyle="Oblique"
                                                    FontWeight="Medium"
-                                                   Foreground="Snow"/>
+                                                   Foreground="#353535"/>
                                 <Line
                                   Margin="0,4"
                                   Stroke="Silver"

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -23,10 +24,10 @@ namespace My_Listener
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class MainPage : Page 
     {
-        private ObservableCollection<TaskTodo> listOfTasks { get; set; }
-        
+        // Collection of tasks
+        private ObservableCollection<TaskTodo> listOfTasks;
         public ObservableCollection<TaskTodo> ListOfTasks{
             get { return listOfTasks; }
         }
@@ -40,6 +41,7 @@ namespace My_Listener
         // ListView Control
         private void toDoList_SelectionChanged(object sender, SelectionChangedEventArgs e){
 
+           
         }
 
 
@@ -67,7 +69,14 @@ namespace My_Listener
         private void delete_Click(object sender, RoutedEventArgs e){
             // Call a function RemoveAt(index) inherited from Observable Collection Interface
             // Index is obtained from front end ListView with x:Name = "toDoList"
-            listOfTasks.RemoveAt(toDoList.SelectedIndex);            
+
+            // check if selectedIndex is not pointing to any item (value -1)
+            // Debug.WriteLine(toDoList.SelectedIndex);
+            // if not, remove item at selected index
+            if (toDoList.SelectedIndex != -1)
+            {
+                listOfTasks.RemoveAt(toDoList.SelectedIndex);
+            }           
         }
 
         private async void edit_Click(object sender, RoutedEventArgs e){
@@ -78,6 +87,9 @@ namespace My_Listener
             if (editedTask.Length == 0) { /* Do nothing */ }
             else {
                 listOfTasks.ElementAt(toDoList.SelectedIndex).TaskDesc = editedTask;
+
+                Debug.WriteLine(listOfTasks.ElementAt(toDoList.SelectedIndex).TaskDesc.ToString());
+                
             }
         }
 
