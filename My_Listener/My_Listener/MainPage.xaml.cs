@@ -36,12 +36,23 @@ namespace My_Listener
 
         private RestStorageService requestStorageService;
 
-
+        
         public MainPage(){
             this.InitializeComponent();
-            listOfTasks = new TodoCollection();
-            requestStorageService = new NewtonsoftJsonStorageRequests();
-            listOfTasks = requestStorageService.getToDoList().Result;
+            this.Loaded += MainPage_Loaded;
+        }
+
+        private void MainPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (listOfTasks == null)
+            {
+                
+                listOfTasks = new TodoCollection();
+                requestStorageService = new NewtonsoftJsonStorageRequests();
+           //     var listLoadingTask = Task.Run(() => requestStorageService.getToDoList().Result);
+           //     listOfTasks = listLoadingTask.Result;
+                listOfTasks = requestStorageService.getToDoList().Result;
+            }
         }
 
         // ListView Control

@@ -19,7 +19,7 @@ namespace My_Listener
         // Handler for event raised when a property is changed on a component
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private int taskId;
+      //  private int taskId;
         private String taskDesc;
         private DateTime dateCreated;
         // location
@@ -37,11 +37,11 @@ namespace My_Listener
 
         // Getters/Setters
 
-        public int TaskId
-        {
-            get { return taskId; }
-            set { taskId = value; }
-        }
+        //public int TaskId
+        //{
+        //    get { return taskId; }
+        //    set { taskId = value; }
+        //}
 
         public String TaskDesc
         {

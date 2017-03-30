@@ -57,16 +57,21 @@ namespace My_Listener.Services.Implementations
             Uri requestUri = new Uri("http://localhost:8080/yourlist/get-todo");
             var objClient = new HttpClient();
 
+            Debug.WriteLine("JUST BEFORE GetAsync ");
             HttpResponseMessage respon = await objClient.GetAsync(requestUri);
-
+            
+            Debug.WriteLine("JUST BEFORE ReadAsStringAsync ");
             string temp = await respon.Content.ReadAsStringAsync();
+            
+            Debug.WriteLine("JUST BEFORE Parse");
             var tempJson = JsonArray.Parse(temp);
 
             // takes tempJson and returns ObservableCollection
-            
+            Debug.WriteLine("JUST BEFORE return ");
             return createFreshCollection(tempJson);
         }
 
+        // REF.: https://github.com/arkiq/AppDataBind/blob/master/App9databind2/MainPage.xaml.cs
         private ObservableCollection<TaskTodo> createFreshCollection(JsonArray tempJson)
         {
             ObservableCollection<TaskTodo> tempList = new ObservableCollection<TaskTodo>();
