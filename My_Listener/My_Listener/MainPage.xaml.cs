@@ -1,4 +1,6 @@
-﻿using System;
+﻿using My_Listener.Services;
+using My_Listener.Services.Implementations;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -32,10 +34,14 @@ namespace My_Listener
             get { return listOfTasks; }
         }
 
+        private RestStorageService requestStorageService;
+
 
         public MainPage(){
             this.InitializeComponent();
             listOfTasks = new TodoCollection();
+            requestStorageService = new NewtonsoftJsonStorageRequests();
+            listOfTasks = requestStorageService.getToDoList().Result;
         }
 
         // ListView Control
@@ -62,6 +68,16 @@ namespace My_Listener
                 // Add obtained value to an Observable Collection of Tasks.
                 // UI automatically pick up new changes in the collection
                 // thanks to data binding and ObservableCollection<T> interface
+                bool result = await requestStorageService.saveToDoTask(new TaskTodo(task, DateTime.Now));
+
+                if (result)
+                {
+                    Debug.WriteLine("OK");
+                } else{
+                    Debug.WriteLine("FAIL");
+                }
+
+
                 listOfTasks.Add(new TaskTodo(task, DateTime.Now));
             } 
         }

@@ -15,9 +15,9 @@ namespace My_Listener
         // constructor
         public TodoCollection()
         {
-            Add(new TaskTodo( "Study for Selenium MCQ", DateTime.Now ));
-            Add(new TaskTodo("To do List for C# Project", DateTime.Now ));
-            Add(new TaskTodo ("Redesign Pivot for C# Project", DateTime.Now ));
+            //Add(new TaskTodo("Study for Selenium MCQ", DateTime.Now));
+            //Add(new TaskTodo("To do List for C# Project", DateTime.Now));
+            //Add(new TaskTodo("Redesign Pivot for C# Project", DateTime.Now));
         }
 
 

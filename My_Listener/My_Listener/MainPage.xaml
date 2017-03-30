@@ -25,8 +25,7 @@
                 <AppBarSeparator/>
                 <AppBarButton  Name="newTask" Icon="Add" 
                 Label="New Task" Click="addButton_Click"/>
-            </CommandBar.PrimaryCommands>
-            
+           </CommandBar.PrimaryCommands>
         </CommandBar>
     </Page.TopAppBar>
 
