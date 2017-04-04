@@ -5,8 +5,8 @@
     xmlns:local="using:My_Listener"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    xmlns:viewModels="using:My_Listener.ViewModels"
+    mc:Ignorable="d">
 
     <Page.TopAppBar>
         <CommandBar ClosedDisplayMode="Compact" 
@@ -14,17 +14,17 @@
 
             <CommandBar.PrimaryCommands>
                 <AppBarButton HorizontalAlignment="Left" Name="settings" Icon="Setting" 
-                    Label="Settings" Click = "settings_Click"/>
+                    Label="Settings"/>
                 <AppBarSeparator/>
                 <AppBarButton Name="edit" Icon="Edit"
-                              Label="Edit" Click="edit_Click"/>
+                              Label="Edit" />
                 <AppBarSeparator/>
                 <AppBarButton Name="delete" Icon="Delete"
-                              Label="Delete" Click="delete_Click"
+                              Label="Delete"
                               Margin="0, 0, 0, 0"/>
                 <AppBarSeparator/>
                 <AppBarButton  Name="newTask" Icon="Add" 
-                Label="New Task" Click="addButton_Click"/>
+                Label="New Task"/>
            </CommandBar.PrimaryCommands>
         </CommandBar>
     </Page.TopAppBar>
@@ -48,38 +48,37 @@
             <Grid x:Name="toDoList_sp" VerticalAlignment="top" HorizontalAlignment="Stretch">
                 <ScrollViewer>
                     <ListView x:Name ="toDoList" 
-                          ItemsSource="{Binding Path=ListOfTasks}"
-                          SelectionChanged="toDoList_SelectionChanged"
+                          ItemsSource="{x:Bind TodoCollection.TodoList }"
+                          SelectedIndex="{x:Bind TodoCollection.SelectedIndex }"
                           BorderBrush="White" BorderThickness="3"
                           ScrollViewer.VerticalScrollBarVisibility="Auto"
                           ScrollViewer.VerticalScrollMode="Auto">
 
                         <ListView.ItemTemplate>
-                            <DataTemplate>
+                            <DataTemplate x:DataType="viewModels:TaskTodoVM">
 
                                 <StackPanel BorderBrush="Snow" BorderThickness="2" CornerRadius="10"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Center"
-                                        Background="#D5CDCD">
-                                <TextBlock Text="{Binding Path=TaskDesc}"                                                    
-                                                   Margin="20,0,20, 8"
-                                                   FontSize="16"
-                                                   FontStyle="Oblique"
-                                                   FontWeight="Medium"
-                                                   Foreground="Black"/>
-                                <TextBlock Text="{Binding Path=DateCreated}" 
-                                                   Margin="20,0,20, 8"
-                                                   FontSize="16"
-                                                   FontStyle="Oblique"
-                                                   FontWeight="Medium"
-                                                   Foreground="#353535"/>
-                                <Line
-                                  Margin="0,4"
-                                  Stroke="Silver"
-                                  Stretch="Fill"
-                                  X1="0" X2="1" 
-                                  />
-                            </StackPanel>
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Center"
+                                            Background="#D5CDCD">
+                                    
+                                        <TextBlock Text="{x:Bind TaskDesc, Mode=OneWay}"                                                    
+                                                    Margin="20,0,20, 8"
+                                                    FontSize="16"
+                                                    FontStyle="Oblique"
+                                                    FontWeight="Medium"
+                                                    Foreground="Black"/>
+                                        <TextBlock Text="{x:Bind DateCreated, Mode=OneWay}" 
+                                                    Margin="20,0,20, 8"
+                                                    FontSize="16"
+                                                    FontStyle="Oblique"
+                                                    FontWeight="Medium"
+                                                    Foreground="#353535"/>
+                                    
+                                        <Line Margin="0,4" Stroke="Silver"
+                                        Stretch="Fill" X1="0" X2="1"/>
+                                    
+                                </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>

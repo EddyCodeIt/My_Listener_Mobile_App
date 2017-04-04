@@ -1,5 +1,5 @@
-﻿using My_Listener.Services;
-using My_Listener.Services.Implementations;
+﻿
+using My_Listener.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -29,98 +29,20 @@ namespace My_Listener
     public sealed partial class MainPage : Page 
     {
         // Collection of tasks
-        private ObservableCollection<TaskTodo> listOfTasks;
-        public ObservableCollection<TaskTodo> ListOfTasks{
-            get { return listOfTasks; }
-        }
 
-        private RestStorageService requestStorageService;
+        public TodoCollectionVM TodoCollection { get; set; }
 
-        
         public MainPage(){
             this.InitializeComponent();
+            TodoCollection = new TodoCollectionVM();
             this.Loaded += MainPage_Loaded;
         }
 
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            if (listOfTasks == null)
-            {
-                
-                listOfTasks = new TodoCollection();
-                requestStorageService = new NewtonsoftJsonStorageRequests();
-           //     var listLoadingTask = Task.Run(() => requestStorageService.getToDoList().Result);
-           //     listOfTasks = listLoadingTask.Result;
-                listOfTasks = requestStorageService.getToDoList().Result;
-            }
-        }
-
-        // ListView Control
-        private void toDoList_SelectionChanged(object sender, SelectionChangedEventArgs e){
-
            
         }
 
-
-        #region Command Bar Methods
-
-        private void settings_Click(object sender, RoutedEventArgs e){
-
-        }
-        
-        // Add button activates Input Box for user to enter a new Task
-        private async void addButton_Click(object sender, RoutedEventArgs e){
-            // Store value returned by the function that calls Dialog Box
-            string task = await InputTextDialogAsync("Add New Task");
-
-            // check if returned task is not empty String
-            if(task.Length == 0){ /* do nothing */ }
-            else{
-                // Add obtained value to an Observable Collection of Tasks.
-                // UI automatically pick up new changes in the collection
-                // thanks to data binding and ObservableCollection<T> interface
-                bool result = await requestStorageService.saveToDoTask(new TaskTodo(task, DateTime.Now));
-
-                if (result)
-                {
-                    Debug.WriteLine("OK");
-                } else{
-                    Debug.WriteLine("FAIL");
-                }
-
-
-                listOfTasks.Add(new TaskTodo(task, DateTime.Now));
-            } 
-        }
-
-        private void delete_Click(object sender, RoutedEventArgs e){
-            // Call a function RemoveAt(index) inherited from Observable Collection Interface
-            // Index is obtained from front end ListView with x:Name = "toDoList"
-
-            // check if selectedIndex is not pointing to any item (value -1)
-            // Debug.WriteLine(toDoList.SelectedIndex);
-            // if not, remove item at selected index
-            if (toDoList.SelectedIndex != -1)
-            {
-                listOfTasks.RemoveAt(toDoList.SelectedIndex);
-            }           
-        }
-
-        private async void edit_Click(object sender, RoutedEventArgs e){
-            // Similar to add a new task, call anync Dialog Box and allow user edit 
-            // task. 
-            string editedTask = await InputTextDialogAsync("Editting Task");
-            // Get selected item index
-            if (editedTask.Length == 0) { /* Do nothing */ }
-            else {
-                listOfTasks.ElementAt(toDoList.SelectedIndex).TaskDesc = editedTask;
-
-                Debug.WriteLine(listOfTasks.ElementAt(toDoList.SelectedIndex).TaskDesc.ToString());
-                
-            }
-        }
-
-        #endregion Command Bar
 
         // Method that creates dialog with user and asks for input
         // Method asynchronously calls a window by setting it's return type to Task<T>. 

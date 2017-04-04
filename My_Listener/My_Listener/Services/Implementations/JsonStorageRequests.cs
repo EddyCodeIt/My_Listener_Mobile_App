@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Diagnostics;
 using System.IO;
 using Windows.Data.Json;
+using My_Listener.Models;
 
 /*
     Ref.: http://www.c-sharpcorner.com/UploadFile/2b876a/consume-web-service-using-httpclient-to-post-and-get-json-da/ 
@@ -17,7 +18,7 @@ using Windows.Data.Json;
 
 namespace My_Listener.Services.Implementations
 {
-    class NewtonsoftJsonStorageRequests : RestStorageService
+    public class JsonStorageRequests : RestStorageService
     {
         public async Task<bool> saveToDoTask(TaskTodo taskTodo)
         {
@@ -42,7 +43,7 @@ namespace My_Listener.Services.Implementations
             }
         }
 
-        public Task<string> deleteToDoTask(int taskIndex)
+        public Task<string> deleteToDoTask(TaskTodo taskTodo)
         {
             throw new NotImplementedException();
         }
@@ -52,7 +53,7 @@ namespace My_Listener.Services.Implementations
             throw new NotImplementedException();
         }
 
-        public async Task<ObservableCollection<TaskTodo>> getToDoList()
+        public async Task<List<TaskTodo>> getToDoList()
         {
             Uri requestUri = new Uri("http://localhost:8080/yourlist/get-todo");
             var objClient = new HttpClient();
@@ -70,11 +71,10 @@ namespace My_Listener.Services.Implementations
             Debug.WriteLine("JUST BEFORE return ");
             return createFreshCollection(tempJson);
         }
-
-        // REF.: https://github.com/arkiq/AppDataBind/blob/master/App9databind2/MainPage.xaml.cs
-        private ObservableCollection<TaskTodo> createFreshCollection(JsonArray tempJson)
+                // REF.: https://github.com/arkiq/AppDataBind/blob/master/App9databind2/MainPage.xaml.cs
+        private List<TaskTodo> createFreshCollection(JsonArray tempJson)
         {
-            ObservableCollection<TaskTodo> tempList = new ObservableCollection<TaskTodo>();
+            List<TaskTodo> tempList = new List<TaskTodo>();
             foreach (var item in tempJson)
             {
                 var obj = item.GetObject();
