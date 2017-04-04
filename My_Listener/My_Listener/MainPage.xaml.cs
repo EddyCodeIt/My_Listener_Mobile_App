@@ -43,30 +43,5 @@ namespace My_Listener
            
         }
 
-
-        // Method that creates dialog with user and asks for input
-        // Method asynchronously calls a window by setting it's return type to Task<T>. 
-        // In this case, thread that deals with a task returns String representation 
-        // of an input from ContentDialog. 
-        private async Task<string> InputTextDialogAsync(string title)
-        {
-            TextBox inputTextBox = new TextBox(); // user input
-            inputTextBox.AcceptsReturn = false; // 
-            inputTextBox.Height = 32;
-            ContentDialog dialog = new ContentDialog(); // Representing Dialog Box with a user
-            dialog.Content = inputTextBox; // add input box to a dialog
-            dialog.Title = title;
-            dialog.IsSecondaryButtonEnabled = true; // enable cancel button
-            dialog.PrimaryButtonText = "Ok"; // submit
-            dialog.SecondaryButtonText = "Cancel"; // cancel operation
-            // beggin asynch operation of a dialog box and wait for primary button to be tapped by a user
-            if (await dialog.ShowAsync() == ContentDialogResult.Primary)
-                return inputTextBox.Text;
-            else
-                // if secondary button was tapped or dialog was closed, return empty String
-                return "";
-        }
-
-
     }
 }

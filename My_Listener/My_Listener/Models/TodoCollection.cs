@@ -42,13 +42,12 @@ namespace My_Listener.Models
         // add to TodoList
         public async void Add(TaskTodo task)
         {
-            if (!TodoList.Contains(task))
-            {
-                TodoList.Add(task);
-                var status = await storageService.saveToDoTask(task);
 
-                Debug.WriteLine("Adding Task (TodoCollection) STATUS => " + status.ToString());
-            }
+            TodoList.Add(task);
+            var status = await storageService.saveToDoTask(task);
+
+            Debug.WriteLine("Adding Task (TodoCollection) STATUS => " + status.ToString());
+
         }
 
 
