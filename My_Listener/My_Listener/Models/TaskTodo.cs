@@ -8,6 +8,7 @@ namespace My_Listener.Models
 {
     public class TaskTodo
     {
+        public string TaskId { get; set; }
         public string TaskDesc { get; set; }
         public DateTime DateCreated { get; set; }
 

@@ -25,21 +25,9 @@ namespace My_Listener.Models
 
             var listLoadingTask = Task.Run(() => storageService.getToDoList().Result);
             TodoList = listLoadingTask.Result;
-            
-            
-            //TodoList = storageService.getToDoList().Result;
-            //loadList();
-            // Debug.WriteLine("Elements inside TODO LIST: " + TodoList.Count.ToString());
+
         }
 
-        private async void loadList()
-        {
-            TodoList = await Task.Run(() => storageService.getToDoList().Result);
-        }
-
-        // public void add
-        // call service to add
-        // add to TodoList
         public async void Add(TaskTodo task)
         {
 
@@ -51,27 +39,22 @@ namespace My_Listener.Models
         }
 
 
-        // public void delete
-        // call service to delete
-        // delete from TodoList
-
-        public void Delete(TaskTodo person)
+        public void Delete(TaskTodo todoTask)
         {
-            if (TodoList.Contains(person))
+            Debug.WriteLine("Testing DELETE from Model");
+            if (TodoList.Contains(todoTask))
             {
-                TodoList.Remove(person);
-                var status = storageService.deleteToDoTask(person);
+                TodoList.Remove(todoTask);
+                var status = storageService.deleteToDoTask(todoTask);
                 Debug.WriteLine("Deleting Task (TodoCollection) STATUS => " + status.ToString());
             }
-        }
-        // public void update
-        // call service task edited
-        // edit task in TodoList
+        } // end of Delete()
+
         public async void Update(TaskTodo task)
         {
             var status = await storageService.saveToDoTask(task);
             Debug.WriteLine("Updating Task (TodoCollection) STATUS => " + status.ToString());
-        }
+        } // end of Update()
     }
 
 

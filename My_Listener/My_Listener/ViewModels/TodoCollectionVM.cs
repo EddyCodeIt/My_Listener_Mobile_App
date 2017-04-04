@@ -31,7 +31,7 @@ namespace My_Listener.ViewModels
         int _SelectedIndex;
         public int SelectedIndex
         {
-            get { return _SelectedIndex; }
+            get { Debug.WriteLine("SELECTED INDEX CHANGED - TodoCollectionVM :: " + _SelectedIndex);  return _SelectedIndex;  }
             set
             {
                 if (SetProperty(ref _SelectedIndex, value))
@@ -51,7 +51,7 @@ namespace My_Listener.ViewModels
         {
             // Create new Model that you want to wrap in View Model
             // Model can have a data already in it or may call http services to obtain it
-
+            Debug.WriteLine("Constructing VM");
             todoCollection = new TodoCollection();
             _SelectedIndex = -1; // Set selected index in ListView to nothing. 
                                 // This property has x:Bind to it's getter in ListView on Page
@@ -69,33 +69,51 @@ namespace My_Listener.ViewModels
 
         public async void Add()
         {
-            var task = new TaskTodoVM();
-            string userInput = await InputTextDialogAsync("New Task");
+            var task = new TaskTodoVM(); // create new view model of a task
+            string userInput = await InputTextDialogAsync("New Task"); // call a method that represents dialog with a user
+                                                                      // obtain result of an input
             if (userInput.Length == 0) { /* do nothing */ }
             else
             {
-                task.TaskDesc = userInput;
+                task.TaskId = "Task" + new Random().Next(0, 10000).ToString();
+                task.TaskDesc = userInput; // assign result of an input to an attribute of a VM
                 task.DateCreated = DateTime.Now;
-                task.PropertyChanged += Task_OnNotifyPropertyChanged;
+                // task.PropertyChanged += Task_OnNotifyPropertyChanged;
                 TodoList.Add(task);
                 SelectedIndex = TodoList.IndexOf(task);
+                todoCollection.Add(task);
             }
         }
 
         public void Delete()
         {
+            Debug.WriteLine("Testing DELETE from View Model");
+            if (SelectedIndex != -1)
+            {
+                Debug.WriteLine("Selected index is != -1 ");
+                var task = TodoList[SelectedIndex];
+                TodoList.RemoveAt(SelectedIndex);
+                task.PropertyChanged += Task_OnNotifyPropertyChanged;
+                todoCollection.Delete(task);
+            }
+        }
+
+        public async void Update()
+        {
+            Debug.WriteLine("Testing UPDATE from View Model");
             if (SelectedIndex != -1)
             {
                 var task = TodoList[SelectedIndex];
-                TodoList.RemoveAt(SelectedIndex);
-                todoCollection.Delete(task);
+                task.TaskDesc = await InputTextDialogAsync("Edit Task");
+                task.PropertyChanged += Task_OnNotifyPropertyChanged;
+                todoCollection.Update(task);
             }
         }
 
         public void Task_OnNotifyPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             Debug.WriteLine("On NotifyPropertyChanged Event Triggered! ");
-            todoCollection.Update((TaskTodoVM)sender);
+            //todoCollection.Update((TaskTodoVM)sender);
         } // end of Task_OnNotifyPropertyChanged()
 
 

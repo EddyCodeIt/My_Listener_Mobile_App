@@ -35,6 +35,7 @@ namespace My_Listener.Services.Implementations
 
             Uri requestUri = new Uri("http://localhost:8080/yourlist/save-task");
             dynamic dynamicJson = new ExpandoObject();
+            dynamicJson.taskId = taskTodo.TaskId.ToString();
             dynamicJson.taskDesc = taskTodo.TaskDesc.ToString();
             dynamicJson.dateCreated = taskTodo.DateCreated.ToString();
             string json = "";
@@ -59,14 +60,33 @@ namespace My_Listener.Services.Implementations
         }
 
 
-        public Task<string> deleteToDoTask(TaskTodo taskTodo)
+        public async Task<string> deleteToDoTask(TaskTodo taskTodo)
         {
-            throw new NotImplementedException();
+            string status = "FAIL"; // set default to fail, in case request doesn't go through.
+            Uri requestUri = new Uri("http://localhost:8080/yourlist/delete-task/" + taskTodo.TaskId.ToString());
+            string json = "";
+            Debug.WriteLine(requestUri.ToString());
+            var objClient = new HttpClient();
+
+            try {
+                HttpResponseMessage respon = await objClient.DeleteAsync(requestUri);
+
+                string responJsonText = await respon.Content.ReadAsStringAsync();
+                status = responJsonText;
+            }
+            catch (HttpRequestException exception) {
+
+                Debug.WriteLine("DESCRIPTION: " + exception.Message + " STATUS CODE: " + exception.HResult);
+            }
+
+            return status;
         }
 
-        public Task<string> editToDoTask(TaskTodo taskTodo)
+        public async Task<string> editToDoTask(TaskTodo taskTodo)
         {
-            throw new NotImplementedException();
+            string status = "OK";
+            Debug.WriteLine("DESCRIPTION: not implemented");
+            return status;
         }
 
         public async Task<List<TaskTodo>> getToDoList() {

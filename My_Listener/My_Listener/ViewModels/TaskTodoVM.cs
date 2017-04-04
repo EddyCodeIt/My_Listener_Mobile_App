@@ -12,6 +12,12 @@ namespace My_Listener.ViewModels
     {
         public TaskTodoVM(TaskTodo taskTodo = null ) : base(taskTodo) { }
 
+        public String TaskId
+        {
+            get { return This.TaskId; }
+            set { SetProperty(This.TaskId, value, () => This.TaskId = value); }
+        }
+
         public String TaskDesc
         {
             get { return This.TaskDesc; }
@@ -24,6 +30,8 @@ namespace My_Listener.ViewModels
             get { return This.DateCreated; }
             set { SetProperty(This.DateCreated, value, () => This.DateCreated = value); }
         }
+
+        
     }
 
 }

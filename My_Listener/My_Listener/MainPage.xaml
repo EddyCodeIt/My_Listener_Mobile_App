@@ -16,14 +16,14 @@
                 <AppBarButton HorizontalAlignment="Left" Name="settings" Icon="Setting" 
                     Label="Settings"/>
                 <AppBarSeparator/>
-                <AppBarButton Name="edit" Icon="Edit"
+                <AppBarButton Name="edit" Icon="Edit" Click = "{x:Bind TodoCollection.Update}"
                               Label="Edit" />
                 <AppBarSeparator/>
-                <AppBarButton Name="delete" Icon="Delete"
+                <AppBarButton Name="delete" Icon="Delete" Click = "{x:Bind TodoCollection.Delete}"
                               Label="Delete"
                               Margin="0, 0, 0, 0"/>
                 <AppBarSeparator/>
-                <!-- Add btn -->
+                <!-- Add btn. MVVM allows to bind click/tap/etc events to a methods in exposed ViewModel  -->
                 <AppBarButton  Name="newTask" Icon="Add" Click="{x:Bind TodoCollection.Add}"
                 Label="New Task"/>
            </CommandBar.PrimaryCommands>
@@ -49,8 +49,8 @@
             <Grid x:Name="toDoList_sp" VerticalAlignment="top" HorizontalAlignment="Stretch">
                 <ScrollViewer>
                     <ListView x:Name ="toDoList" 
-                          ItemsSource="{x:Bind TodoCollection.TodoList }"
-                          SelectedIndex="{x:Bind TodoCollection.SelectedIndex }"
+                          ItemsSource="{x:Bind TodoCollection.TodoList, Mode=OneWay }"
+                          SelectedIndex="{x:Bind TodoCollection.SelectedIndex, Mode=TwoWay}"
                           BorderBrush="White" BorderThickness="3"
                           ScrollViewer.VerticalScrollBarVisibility="Auto"
                           ScrollViewer.VerticalScrollMode="Auto">
