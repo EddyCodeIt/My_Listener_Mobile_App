@@ -13,6 +13,6 @@ namespace My_Listener.Services
         Task<bool> saveToDoTask(TaskTodo taskTodo);
         Task<List<TaskTodo>> getToDoList();
         Task<string> deleteToDoTask(TaskTodo taskTodo);
-        Task<string> editToDoTask(TaskTodo taskTodo);
+
     }
 }

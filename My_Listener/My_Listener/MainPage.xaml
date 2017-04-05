@@ -75,8 +75,14 @@
                                                     FontStyle="Oblique"
                                                     FontWeight="Medium"
                                                     Foreground="#353535"/>
-                                    
-                                        <Line Margin="0,4" Stroke="Silver"
+                                        <TextBlock Text="{x:Bind Location, Mode=OneWay}" 
+                                                        Margin="20,0,20, 8"
+                                                        FontSize="16"
+                                                        FontStyle="Oblique"
+                                                        FontWeight="Medium"
+                                                        Foreground="#353535"/>
+
+                                    <Line Margin="0,4" Stroke="Silver"
                                         Stretch="Fill" X1="0" X2="1"/>
                                     
                                 </StackPanel>

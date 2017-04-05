@@ -33,6 +33,8 @@ namespace My_Listener
         public TodoCollectionVM TodoCollection { get; set; }
 
         public MainPage(){
+
+            
             this.InitializeComponent();
             TodoCollection = new TodoCollectionVM();
             this.Loaded += MainPage_Loaded;

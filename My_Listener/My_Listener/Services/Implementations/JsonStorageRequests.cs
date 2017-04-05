@@ -38,6 +38,7 @@ namespace My_Listener.Services.Implementations
             dynamicJson.taskId = taskTodo.TaskId.ToString();
             dynamicJson.taskDesc = taskTodo.TaskDesc.ToString();
             dynamicJson.dateCreated = taskTodo.DateCreated.ToString();
+            dynamicJson.location = taskTodo.Location;
             string json = "";
             json = JsonConvert.SerializeObject(dynamicJson);
             var objClient = new HttpClient();
@@ -64,7 +65,6 @@ namespace My_Listener.Services.Implementations
         {
             string status = "FAIL"; // set default to fail, in case request doesn't go through.
             Uri requestUri = new Uri("http://localhost:8080/yourlist/delete-task/" + taskTodo.TaskId.ToString());
-            string json = "";
             Debug.WriteLine(requestUri.ToString());
             var objClient = new HttpClient();
 
@@ -82,12 +82,6 @@ namespace My_Listener.Services.Implementations
             return status;
         }
 
-        public async Task<string> editToDoTask(TaskTodo taskTodo)
-        {
-            string status = "OK";
-            Debug.WriteLine("DESCRIPTION: not implemented");
-            return status;
-        }
 
         public async Task<List<TaskTodo>> getToDoList() {
             Uri requestUri = new Uri("http://localhost:8080/yourlist/get-todo"); // create new request URI 

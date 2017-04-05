@@ -31,7 +31,11 @@ namespace My_Listener.ViewModels
             set { SetProperty(This.DateCreated, value, () => This.DateCreated = value); }
         }
 
-        
+        public String Location
+        {
+            get { return This.Location; }
+            set { SetProperty(This.Location, value, () => This.Location = value); }
+        }
     }
 
 }

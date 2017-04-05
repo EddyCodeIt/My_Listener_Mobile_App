@@ -39,6 +39,10 @@ namespace My_Listener.Services.RequestUtils
                             DateTime dt = Convert.ToDateTime(value.GetString());
                             taskTodo.DateCreated = dt;
                             break;
+                        case "location":
+                            taskTodo.Location = value.GetString();
+                            break;
+
                     }
                 } // inner foreach
 

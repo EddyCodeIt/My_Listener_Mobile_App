@@ -1,5 +1,6 @@
 ﻿using My_Listener;
 using My_Listener.Models;
+using My_Listener.Services.GeoLocationServices;
 using My_Listener.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace My_Listener.ViewModels
     public class TodoCollectionVM : NotificationBase
     {
         TodoCollection todoCollection;
+        private GeoLocationService myGeoService;
 
         ObservableCollection<TaskTodoVM> _TodoList = new ObservableCollection<TaskTodoVM>();
 
@@ -53,6 +55,11 @@ namespace My_Listener.ViewModels
             // Model can have a data already in it or may call http services to obtain it
             Debug.WriteLine("Constructing VM");
             todoCollection = new TodoCollection();
+
+            myGeoService = new GeoLocationService(); // create instance of Geo Service
+            myGeoService.initialiseGeoLocation(); // initialise service, ask user for access
+            Debug.WriteLine(myGeoService.Geo_status);
+
             _SelectedIndex = -1; // Set selected index in ListView to nothing. 
                                 // This property has x:Bind to it's getter in ListView on Page
 
@@ -70,6 +77,7 @@ namespace My_Listener.ViewModels
         public async void Add()
         {
             var task = new TaskTodoVM(); // create new view model of a task
+            
             string userInput = await InputTextDialogAsync("New Task"); // call a method that represents dialog with a user
                                                                       // obtain result of an input
             if (userInput.Length == 0) { /* do nothing */ }
@@ -78,6 +86,9 @@ namespace My_Listener.ViewModels
                 task.TaskId = "Task" + new Random().Next(0, 10000).ToString();
                 task.TaskDesc = userInput; // assign result of an input to an attribute of a VM
                 task.DateCreated = DateTime.Now;
+
+                // call geolocation services
+                task.Location = await myGeoService.GetCurrentPossition();
                 // task.PropertyChanged += Task_OnNotifyPropertyChanged;
                 TodoList.Add(task);
                 SelectedIndex = TodoList.IndexOf(task);
