@@ -28,15 +28,14 @@ namespace My_Listener
     /// </summary>
     public sealed partial class MainPage : Page 
     {
-        // Collection of tasks
-
+        // SET/GET for View Model of Todo List
         public TodoCollectionVM TodoCollection { get; set; }
 
         public MainPage(){
 
             
             this.InitializeComponent();
-            TodoCollection = new TodoCollectionVM();
+            TodoCollection = new TodoCollectionVM(); // creating instance of View Model
             this.Loaded += MainPage_Loaded;
         }
 

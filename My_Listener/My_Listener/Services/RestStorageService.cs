@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+// interface to define Service CRUD within app 
 namespace My_Listener.Services
 {
     interface RestStorageService

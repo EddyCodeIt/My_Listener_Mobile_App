@@ -12,6 +12,7 @@ using System.IO;
 using Windows.Data.Json;
 using My_Listener.Models;
 using My_Listener.Services.RequestUtils;
+using Windows.UI.Popups;
 
 /*
     Ref.: http://www.c-sharpcorner.com/UploadFile/2b876a/consume-web-service-using-httpclient-to-post-and-get-json-da/ 
@@ -33,27 +34,33 @@ namespace My_Listener.Services.Implementations
         {
             bool statusFlag = false;
 
-            Uri requestUri = new Uri("http://localhost:8080/yourlist/save-task");
-            dynamic dynamicJson = new ExpandoObject();
-            dynamicJson.taskId = taskTodo.TaskId.ToString();
+            // for local debuggin user http://localhost:8080/
+            Uri requestUri = new Uri("http://localhost:8080/yourlist/save-task"); // request URI 
+            dynamic dynamicJson = new ExpandoObject(); // build dynamic json for request
+            // create dynamic object that representing json; add todo task data to it 
+            dynamicJson.taskId = taskTodo.TaskId.ToString(); 
             dynamicJson.taskDesc = taskTodo.TaskDesc.ToString();
             dynamicJson.dateCreated = taskTodo.DateCreated.ToString();
             dynamicJson.location = taskTodo.Location;
+            // Store serialized json in string to it with body of request
             string json = "";
-            json = JsonConvert.SerializeObject(dynamicJson);
-            var objClient = new HttpClient();
+            json = JsonConvert.SerializeObject(dynamicJson); // serialize json object and store it in string 
+            var objClient = new HttpClient(); // create Http Client to access http methods
 
+            // try make a request
             try {
+                // send a post request to service and wait for respons; store response in HttpResponseMessage object
                 HttpResponseMessage respon = await objClient.PostAsync(requestUri,
                              new StringContent(json, Encoding.UTF8, "application/json"));
 
-                string responJsonText = await respon.Content.ReadAsStringAsync();
+                string responJsonText = await respon.Content.ReadAsStringAsync(); // read respons from service as string
                 if (responJsonText.Equals("OK")) {
                     statusFlag = true;
                 }
             }
             catch (HttpRequestException exception) {
-
+                
+                // catch Http Exception
                 Debug.WriteLine("DESCRIPTION: " + exception.Message + " STATUS CODE: " + exception.HResult);
             }
 
@@ -64,18 +71,19 @@ namespace My_Listener.Services.Implementations
         public async Task<string> deleteToDoTask(TaskTodo taskTodo)
         {
             string status = "FAIL"; // set default to fail, in case request doesn't go through.
-            Uri requestUri = new Uri("http://localhost:8080/yourlist/delete-task/" + taskTodo.TaskId.ToString());
+            Uri requestUri = new Uri("http://localhost:8080/yourlist/delete-task/" + taskTodo.TaskId.ToString()); // send request to URI with task id number
             Debug.WriteLine(requestUri.ToString());
-            var objClient = new HttpClient();
+            var objClient = new HttpClient(); // new http client to make a request 
 
             try {
-                HttpResponseMessage respon = await objClient.DeleteAsync(requestUri);
+                HttpResponseMessage respon = await objClient.DeleteAsync(requestUri); // get response message from service
 
-                string responJsonText = await respon.Content.ReadAsStringAsync();
-                status = responJsonText;
+                status = await respon.Content.ReadAsStringAsync(); // get string representation of response
+
             }
             catch (HttpRequestException exception) {
 
+                // handle exception if deletion wasn't complete on server side
                 Debug.WriteLine("DESCRIPTION: " + exception.Message + " STATUS CODE: " + exception.HResult);
             }
 
@@ -84,7 +92,8 @@ namespace My_Listener.Services.Implementations
 
 
         public async Task<List<TaskTodo>> getToDoList() {
-            Uri requestUri = new Uri("http://localhost:8080/yourlist/get-todo"); // create new request URI 
+            // 52.35.177.146 localhost
+            Uri requestUri = new Uri("http://52.35.177.146:8080/yourlist/get-todo"); // create new request URI 
             var objClient = new HttpClient(); // create new HttpClient that calls http methods (GET, POST) to provided URI
             string temp; // to store response body read as string 
             List<TaskTodo> tempList = new List<TaskTodo>();  // temporary list to return from method
@@ -100,6 +109,7 @@ namespace My_Listener.Services.Implementations
                                                                              // returns List with Todo Task Model Object
             } catch (HttpRequestException exception) {
                 // if exception is throwen, tempList is returned as an empty list
+
                 Debug.WriteLine("DESCRIPTION: " + exception.Message + " STATUS CODE: " + exception.HResult);
             }
 

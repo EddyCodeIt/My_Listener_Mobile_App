@@ -16,6 +16,8 @@
                 <AppBarButton HorizontalAlignment="Left" Name="settings" Icon="Setting" 
                     Label="Settings"/>
                 <AppBarSeparator/>
+
+                <!-- Command buttons. MVVM allows to x:Bind click/tap/etc events to a methods exposed in ViewModel  -->
                 <AppBarButton Name="edit" Icon="Edit" Click = "{x:Bind TodoCollection.Update}"
                               Label="Edit" />
                 <AppBarSeparator/>
@@ -23,7 +25,7 @@
                               Label="Delete"
                               Margin="0, 0, 0, 0"/>
                 <AppBarSeparator/>
-                <!-- Add btn. MVVM allows to bind click/tap/etc events to a methods in exposed ViewModel  -->
+               
                 <AppBarButton  Name="newTask" Icon="Add" Click="{x:Bind TodoCollection.Add}"
                 Label="New Task"/>
            </CommandBar.PrimaryCommands>
@@ -48,6 +50,7 @@
 
             <Grid x:Name="toDoList_sp" VerticalAlignment="top" HorizontalAlignment="Stretch">
                 <ScrollViewer>
+                    <!-- TodoCollection instance of VM is exposed through GETTER in C# code behind Page  -->
                     <ListView x:Name ="toDoList" 
                           ItemsSource="{x:Bind TodoCollection.TodoList, Mode=OneWay }"
                           SelectedIndex="{x:Bind TodoCollection.SelectedIndex, Mode=TwoWay}"
@@ -56,14 +59,15 @@
                           ScrollViewer.VerticalScrollMode="Auto">
 
                         <ListView.ItemTemplate>
+                            <!-- select datatype to point to VM of a task -->
                             <DataTemplate x:DataType="viewModels:TaskTodoVM">
 
                                 <StackPanel BorderBrush="Snow" BorderThickness="2" CornerRadius="10"
                                             HorizontalAlignment="Stretch"
                                             VerticalAlignment="Center"
                                             Background="#D5CDCD">
-                                    
-                                        <TextBlock Text="{x:Bind TaskDesc, Mode=OneWay}"                                                    
+                                    <!--  Bind individual parameteres from VM for a task -->
+                                    <TextBlock Text="{x:Bind TaskDesc, Mode=OneWay}"                                                    
                                                     Margin="20,0,20, 8"
                                                     FontSize="16"
                                                     FontStyle="Oblique"

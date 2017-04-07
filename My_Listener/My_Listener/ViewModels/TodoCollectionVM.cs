@@ -16,9 +16,13 @@ namespace My_Listener.ViewModels
 {
     public class TodoCollectionVM : NotificationBase
     {
-        TodoCollection todoCollection;
-        private GeoLocationService myGeoService;
 
+        TodoCollection todoCollection; // This is a model class that represents todo list behind the View. 
+                                       // Our View Model wraps it for interaction with UI.
+
+        private GeoLocationService myGeoService; // Geo Location Service to obtain user location
+
+        // Observable Collection that interacts with UI. It is getting a data feed from a Model.
         ObservableCollection<TaskTodoVM> _TodoList = new ObservableCollection<TaskTodoVM>();
 
         #region GET/SET TodoList
@@ -29,6 +33,7 @@ namespace My_Listener.ViewModels
         }
         #endregion
 
+        // Tracking selected items on a View List
         #region GET/SET Index & Selected Index 
         int _SelectedIndex;
         public int SelectedIndex
@@ -87,12 +92,11 @@ namespace My_Listener.ViewModels
                 task.TaskDesc = userInput; // assign result of an input to an attribute of a VM
                 task.DateCreated = DateTime.Now;
 
-                // call geolocation services
+                // call geolocation services and get current possition
                 task.Location = await myGeoService.GetCurrentPossition();
-                // task.PropertyChanged += Task_OnNotifyPropertyChanged;
-                TodoList.Add(task);
-                SelectedIndex = TodoList.IndexOf(task);
-                todoCollection.Add(task);
+                TodoList.Add(task); // add task to Observable collection that is bound to UI
+                SelectedIndex = TodoList.IndexOf(task); // set index to new task
+                todoCollection.Add(task); // save task to DB on cloud
             }
         }
 
@@ -101,11 +105,10 @@ namespace My_Listener.ViewModels
             Debug.WriteLine("Testing DELETE from View Model");
             if (SelectedIndex != -1)
             {
-                Debug.WriteLine("Selected index is != -1 ");
-                var task = TodoList[SelectedIndex];
-                TodoList.RemoveAt(SelectedIndex);
-                task.PropertyChanged += Task_OnNotifyPropertyChanged;
-                todoCollection.Delete(task);
+                var task = TodoList[SelectedIndex]; // get selected task 
+                TodoList.RemoveAt(SelectedIndex); // deleted task at selected index from Observable collection
+                task.PropertyChanged += Task_OnNotifyPropertyChanged; 
+                todoCollection.Delete(task); // delete task from DB using services
             }
         }
 
@@ -116,7 +119,7 @@ namespace My_Listener.ViewModels
             {
                 var task = TodoList[SelectedIndex];
                 task.TaskDesc = await InputTextDialogAsync("Edit Task");
-                task.PropertyChanged += Task_OnNotifyPropertyChanged;
+                task.PropertyChanged += Task_OnNotifyPropertyChanged; // notify UI that value has changed
                 todoCollection.Update(task);
             }
         }
