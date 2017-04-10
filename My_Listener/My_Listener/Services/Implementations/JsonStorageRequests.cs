@@ -34,15 +34,15 @@ namespace My_Listener.Services.Implementations
         {
             bool statusFlag = false;
 
-            // for local debuggin user http://localhost:8080/
+            // for local debuggin use http://localhost:8080/
             Uri requestUri = new Uri("http://localhost:8080/yourlist/save-task"); // request URI 
-            dynamic dynamicJson = new ExpandoObject(); // build dynamic json for request
+            dynamic dynamicJson = new ExpandoObject(); // create dynamic object that will store values for json
             // create dynamic object that representing json; add todo task data to it 
             dynamicJson.taskId = taskTodo.TaskId.ToString(); 
             dynamicJson.taskDesc = taskTodo.TaskDesc.ToString();
             dynamicJson.dateCreated = taskTodo.DateCreated.ToString();
             dynamicJson.location = taskTodo.Location;
-            // Store serialized json in string to it with body of request
+            // Store serialized object in string to include it as body of a request
             string json = "";
             json = JsonConvert.SerializeObject(dynamicJson); // serialize json object and store it in string 
             var objClient = new HttpClient(); // create Http Client to access http methods
@@ -107,8 +107,8 @@ namespace My_Listener.Services.Implementations
                                                     // JsonArray.Parse(temp) takes String as argument to create JsonArray
                 tempList = jsonParser.parseJArray2List(JsonArray.Parse(temp)); // call function to parse JsonArray to a List 
                                                                              // returns List with Todo Task Model Object
-            } catch (HttpRequestException exception) {
-                // if exception is throwen, tempList is returned as an empty list
+            } catch (HttpRequestException exception)  {
+                // if exception is thrown, tempList is returned as an empty list
 
                 Debug.WriteLine("DESCRIPTION: " + exception.Message + " STATUS CODE: " + exception.HResult);
             }
