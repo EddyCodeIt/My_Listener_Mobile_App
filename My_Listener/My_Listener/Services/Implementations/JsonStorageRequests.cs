@@ -35,7 +35,7 @@ namespace My_Listener.Services.Implementations
             bool statusFlag = false;
 
             // for local debuggin use http://localhost:8080/
-            Uri requestUri = new Uri("http://localhost:8080/yourlist/save-task"); // request URI 
+            Uri requestUri = new Uri("http://52.35.177.146:8080/yourlist/save-task"); // request URI 
             dynamic dynamicJson = new ExpandoObject(); // create dynamic object that will store values for json
             // create dynamic object that representing json; add todo task data to it 
             dynamicJson.taskId = taskTodo.TaskId.ToString(); 
@@ -71,7 +71,7 @@ namespace My_Listener.Services.Implementations
         public async Task<string> deleteToDoTask(TaskTodo taskTodo)
         {
             string status = "FAIL"; // set default to fail, in case request doesn't go through.
-            Uri requestUri = new Uri("http://localhost:8080/yourlist/delete-task/" + taskTodo.TaskId.ToString()); // send request to URI with task id number
+            Uri requestUri = new Uri("http://52.35.177.146:8080/yourlist/delete-task/" + taskTodo.TaskId.ToString()); // send request to URI with task id number
             Debug.WriteLine(requestUri.ToString());
             var objClient = new HttpClient(); // new http client to make a request 
 

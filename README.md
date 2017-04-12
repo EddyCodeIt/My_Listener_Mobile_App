@@ -106,7 +106,7 @@ This string than can be used as a paramater for the request functions available
 from HttpClient class (Windows.Net.Http library).
 
 To obtain a response use HttpResponseMessage class as catcher.
-Use functipn ReadAsStringAsync to get response message as string.
+Use function ReadAsStringAsync to get response message as string.
 
 
 
